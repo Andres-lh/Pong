@@ -1,11 +1,8 @@
-#include <windows.h>
+#include "render.h";
 
 bool running = true;
-void *bufferMemory;
-int bufferWidth;
-int bufferHeight;
 
-BITMAPINFO bufferBitmapInfo;
+RenderState renderState;
 
 //window-procedure function.
 LRESULT CALLBACK window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -21,20 +18,21 @@ LRESULT CALLBACK window_callback(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 	{
 		RECT rect;
 		GetClientRect(hWnd, &rect);
-		bufferWidth = rect.right - rect.left;
-		bufferHeight = rect.bottom - rect.top;
+		renderState.width = rect.right - rect.left;
+		renderState.height = rect.bottom - rect.top;
 
-		int bufferSize = bufferWidth * bufferHeight * sizeof(unsigned int);
+		int bufferSize = renderState.width * renderState.height * sizeof(unsigned int);
 
-		if (bufferMemory) VirtualFree(bufferMemory, 0, MEM_RELEASE);
-		bufferMemory = VirtualAlloc(0, bufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		if (renderState.memory) VirtualFree(renderState.memory, 0, MEM_RELEASE);
+		renderState.memory = VirtualAlloc(0, bufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
-		bufferBitmapInfo.bmiHeader.biSize = sizeof(bufferBitmapInfo.bmiHeader);
-		bufferBitmapInfo.bmiHeader.biWidth = bufferWidth;
-		bufferBitmapInfo.bmiHeader.biHeight = bufferHeight;
-		bufferBitmapInfo.bmiHeader.biPlanes = 1;
-		bufferBitmapInfo.bmiHeader.biBitCount = 32;
-		bufferBitmapInfo.bmiHeader.biCompression = BI_RGB;
+		
+		renderState.bitmaoInfo.bmiHeader.biSize = sizeof(renderState.bitmaoInfo.bmiHeader);
+		renderState.bitmaoInfo.bmiHeader.biWidth = renderState.width;
+		renderState.bitmaoInfo.bmiHeader.biHeight = renderState.height;
+		renderState.bitmaoInfo.bmiHeader.biPlanes = 1;
+		renderState.bitmaoInfo.bmiHeader.biBitCount = 32;
+		renderState.bitmaoInfo.bmiHeader.biCompression = BI_RGB;
 	}	break;
 	default:
 		result = DefWindowProc(hWnd, Msg, wParam, lParam);
@@ -94,21 +92,16 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 
 		//simulate
-		unsigned int* pixel = (unsigned int *)bufferMemory;
-		for (int y = 0; y < bufferHeight; y++) {
-			for (int x = 0; x < bufferWidth; x++) {
-				*pixel++ = 0xff5500;
-			}
-		}
+		renderBackground(renderState);
 
 		//render
 		StretchDIBits(hdc, 
 			0, 0, 
-			bufferWidth, bufferHeight, 
+			renderState.width, renderState.height, 
 			0, 0, 
-			bufferWidth, bufferHeight, 
-			bufferMemory, 
-			&bufferBitmapInfo, 
+			renderState.width, renderState.height,
+			renderState.memory, 
+			&renderState.bitmaoInfo, 
 			DIB_RGB_COLORS,
 			SRCCOPY
 		);
