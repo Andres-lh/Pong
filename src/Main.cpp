@@ -92,7 +92,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 
 		//simulate
-		renderBackground(renderState);
+		clearScreen(renderState,0xff55000);
+		drawRectFlex(renderState, 0, 0, 5, 10, 0x00ff22);
 
 		//render
 		StretchDIBits(hdc, 
