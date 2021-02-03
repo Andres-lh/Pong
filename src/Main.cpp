@@ -1,4 +1,5 @@
 #include "render.h";
+#include "input.h"
 
 bool running = true;
 
@@ -80,20 +81,51 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 		return 1;
 	}
-
+	Input input;
+	
+	
 	while (running)
 	{
 		//input
 		MSG message;
+
+		for (int i = 0; i < BUTTON_COUNT; i++)
+		{
+			input.buttons[i].changed = false;
+		}
+
+
 		while (PeekMessage(&message, window, 0, 0, PM_REMOVE))
 		{
-			TranslateMessage(&message);
-			DispatchMessage(&message);
+			switch (message.message) 
+			{
+				case WM_KEYUP:
+				case WM_KEYDOWN: {
+					unsigned int vk_code = (unsigned int)message.wParam;
+					bool isDown = ((message.lParam & (1 << 31)) == 0);
+
+					switch (vk_code)
+					{
+					case VK_UP:
+						input.buttons[BUTTON_UP].isDown = isDown;
+						input.buttons[BUTTON_UP].changed = true;
+						break;
+					}
+					break;
+				}
+					
+				default:
+					TranslateMessage(&message);
+					DispatchMessage(&message);
+					break;
+			}
+				
 		}
 
 		//simulate
-		clearScreen(renderState,0xff55000);
-		drawRectFlex(renderState, 0, 0, 5, 10, 0x00ff22);
+		renderState.clearScreen(0xff55000);
+		if(input.buttons[BUTTON_UP].isDown)
+			renderState.drawRectFlex(0, 0, 5, 10, 0x00ff22);
 
 		//render
 		StretchDIBits(hdc, 

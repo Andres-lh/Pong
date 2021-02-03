@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\render.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -160,6 +161,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\input.h" />
     <ClInclude Include="src\render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
