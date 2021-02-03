@@ -22,4 +22,4 @@ struct Input {
 
 // GameSimulate
 
-void simulateGame( RenderState& renderState, Input& input);
+void simulateGame( RenderState& renderState, Input& input, float deltaTime);
