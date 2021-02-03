@@ -1,7 +1,9 @@
 #pragma once
+#include "render.h"
 
+//Input
 struct ButtonState {
-	bool isDown;
+	bool isDown = false;
 	bool changed;
 };
 
@@ -17,3 +19,7 @@ enum {
 struct Input {
 	ButtonState buttons[BUTTON_COUNT];
 };
+
+// GameSimulate
+
+void simulateGame( RenderState& renderState, Input& input);

@@ -1,5 +1,4 @@
-#include "render.h";
-#include "input.h"
+#include "game.h"
 
 bool running = true;
 
@@ -83,13 +82,12 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 	Input input;
 	
-	
 	while (running)
 	{
 		//input
 		MSG message;
 
-		for (int i = 0; i < BUTTON_COUNT; i++)
+		for (int i = 0; i < BUTTON_COUNT; i++) 
 		{
 			input.buttons[i].changed = false;
 		}
@@ -104,28 +102,37 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 					unsigned int vk_code = (unsigned int)message.wParam;
 					bool isDown = ((message.lParam & (1 << 31)) == 0);
 
+#define process_button(b, vk)\
+case vk:{\
+input.buttons[b].isDown = isDown;\
+input.buttons[b].changed = true;\
+}break;
+
 					switch (vk_code)
 					{
-					case VK_UP:
-						input.buttons[BUTTON_UP].isDown = isDown;
-						input.buttons[BUTTON_UP].changed = true;
-						break;
+						process_button(BUTTON_UP, VK_UP);
+						process_button(BUTTON_DOWN, VK_DOWN);
+						process_button(BUTTON_RIGHT, VK_RIGHT);
+						process_button(BUTTON_LEFT, VK_LEFT);
 					}
 					break;
 				}
 					
-				default:
+				default: {
 					TranslateMessage(&message);
 					DispatchMessage(&message);
-					break;
+
+				}
+				break;
+					
+					
 			}
 				
 		}
 
 		//simulate
-		renderState.clearScreen(0xff55000);
-		if(input.buttons[BUTTON_UP].isDown)
-			renderState.drawRectFlex(0, 0, 5, 10, 0x00ff22);
+
+		simulateGame(renderState, input);
 
 		//render
 		StretchDIBits(hdc, 
