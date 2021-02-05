@@ -62,7 +62,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		WS_OVERLAPPEDWINDOW | WS_VISIBLE,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		800, 500,
+		1280, 720,
 		0,
 		0,
 		hInstance,
@@ -115,16 +115,16 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 #define process_button(b, vk)\
 case vk:{\
+input.buttons[b].changed = isDown != input.buttons[b].isDown ;\
 input.buttons[b].isDown = isDown;\
-input.buttons[b].changed = true;\
 }break;
 
 					switch (vk_code)
 					{
 						process_button(BUTTON_UP, VK_UP);
 						process_button(BUTTON_DOWN, VK_DOWN);
-						process_button(BUTTON_RIGHT, VK_RIGHT);
-						process_button(BUTTON_LEFT, VK_LEFT);
+						process_button(BUTTON_W, 'W');
+						process_button(BUTTON_S, 'S');
 					}
 					break;
 				}
@@ -144,6 +144,7 @@ input.buttons[b].changed = true;\
 		//simulate
 
 		simulateGame(renderState, input, deltaTime);
+		
 
 		//render
 		StretchDIBits(hdc, 
