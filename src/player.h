@@ -1,12 +1,17 @@
 #pragma once
-#include "input.h"
 
 class Player {
 private:
-	float position = 0.0f;
-	float velocity = 0.0f;
+	float position;
+	float velocity;
+	float acceleration;
+	float sizeX;
+	float sizeY;
+	int score;
 public:
-	float acceleration = 0.0f;
+	Player(float sizeX, float sizeY);
 	float getPosition();
-	void move(Input& i, float deltaTime, float acceleration);
+	void move(float deltaTime, float acceleration);
+	float getSizeX();
+	float getSizeY();
 };
