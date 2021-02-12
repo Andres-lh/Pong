@@ -49,3 +49,18 @@ float Player::getSizeY()
 {
 	return sizeY;
 }
+
+float Player::getVelocity()
+{
+	return velocity;
+}
+
+int Player::getScore()
+{
+	return score;
+}
+
+void Player::setScore(int score)
+{
+	this->score = score;
+}

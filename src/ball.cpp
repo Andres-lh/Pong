@@ -41,13 +41,28 @@ void Ball::setPositionX(float posX)
 	positionX = posX;
 }
 
+void Ball::setPositionY(float posY)
+{
+	positionY = posY;
+}
+
 void Ball::setVelocityX(float velocity)
 {
 	velocityX = velocity;
+}
+ 
+void Ball::setVelocityY(float velocity)
+{
+	velocityY = velocity;
 }
 
 float Ball::getVelocityX()
 {
 	return velocityX;
+}
+
+float Ball::getVelocityY()
+{
+	return velocityY;
 }
 

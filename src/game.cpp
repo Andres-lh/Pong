@@ -27,6 +27,21 @@ void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 	renderState.drawRectFlex(ball.getPositionX(), ball.getPositionY(), ball.getSizeX(), ball.getSizeY(), 0xc7ffd8);
 
 	collision(ball, player1, player2);
+	score(ball, player1, player2);
+
+	float a = -50;
+	for (int i = 0; i < player1.getScore(); i++)
+	{
+		renderState.drawRectFlex(a, 47.f, 1.f, 1.f, 0xffffff);
+		a += 2.5f;
+	}
+
+	float b = 50;
+	for (int i = 0; i < player2.getScore(); i++)
+	{
+		renderState.drawRectFlex(b, 47.f, 1.f, 1.f, 0xaaaaaa);
+		b += 2.5f;
+	}
 
 	//Player
 	renderState.drawRectFlex(80, player1.getPosition(), player1.getSizeX(), player1.getSizeY(), 0x161d6f);
@@ -36,22 +51,61 @@ void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 void collision(Ball& ball, Player& player1, Player& player2)
 {
 	float ballVelocityX = ball.getVelocityX();
+	float ballVelocityY = ball.getVelocityY();
 
 	if (ball.getPositionX() + ball.getSizeX() > 80 - player1.getSizeX() &&
 		ball.getPositionX() - ball.getSizeX() < 80 + player1.getSizeX() &&
 		ball.getPositionY() + ball.getSizeY() > player1.getPosition() - player1.getSizeY() &&
-		ball.getPositionY() + ball.getSizeY() < player1.getPosition() + player1.getSizeX())
+		ball.getPositionY() + ball.getSizeY() < player1.getPosition() + player1.getSizeY())
 	{
 		ball.setPositionX(80 - player1.getSizeX() - ball.getSizeX());
 		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityY((ball.getPositionY() - player1.getPosition()) * 2 + player1.getVelocity() * 0.6);
 	}
-	else if (ball.getPositionX() + ball.getSizeX() > -80 - player1.getSizeX() &&
-			ball.getPositionX() - ball.getSizeX() < -80 + player1.getSizeX() &&
+	else if (ball.getPositionX() + ball.getSizeX() > -80 - player2.getSizeX() &&
+			ball.getPositionX() - ball.getSizeX() < -80 + player2.getSizeX() &&
 			ball.getPositionY() + ball.getSizeY() > player2.getPosition() - player1.getSizeY() &&
-			ball.getPositionY() + ball.getSizeY() < player2.getPosition() + player1.getSizeX())
+			ball.getPositionY() + ball.getSizeY() < player2.getPosition() + player1.getSizeY())
 	{
 		ball.setPositionX(-80 + player1.getSizeX() + ball.getSizeX());
 		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityY((ball.getPositionY() - player2.getPosition()) * 2 + player2.getVelocity() * 0.6);
 	}
+
+	if (ball.getPositionY() + ball.getSizeY() > 45)
+	{
+		ball.setPositionY(45 - ball.getSizeY());
+		ball.setVelocityY(ballVelocityY *= -1);
+	}
+	else if (ball.getPositionY() - ball.getSizeY() < -45)
+	{
+		ball.setPositionY(-45 + ball.getSizeY());
+		ball.setVelocityY(ballVelocityY *= -1);
+	}
+}
+
+void score(Ball& ball, Player& player1, Player& player2)
+{
+	float ballVelocityX = ball.getVelocityX();
+	int score1 = player1.getScore();
+	int score2 = player2.getScore();
+
+	if (ball.getPositionX() + ball.getSizeX() > 85)
+	{
+		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityY(0);
+		ball.setPositionX(0);
+		ball.setPositionY(0);
+		player1.setScore(++score1);
+	}
+	else if (ball.getPositionX() - ball.getSizeX() < -85)
+	{
+		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityY(0);
+		ball.setPositionX(0);
+		ball.setPositionY(0);
+		player2.setScore(++score2);
+	}
+	
 }
   

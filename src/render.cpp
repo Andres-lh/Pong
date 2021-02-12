@@ -60,3 +60,4 @@ void RenderState::drawRectFlex(float x, float y, float halfX, float halfY, unsig
 
 	drawRect(xi, yi, xf, yf, color);
 }
+

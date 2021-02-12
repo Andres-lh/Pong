@@ -14,4 +14,7 @@ public:
 	void move(float deltaTime, float acceleration);
 	float getSizeX();
 	float getSizeY();
+	float getVelocity();
+	int getScore();
+	void setScore(int score);
 };

@@ -7,3 +7,5 @@
 void simulateGame( RenderState& renderState, Input& input, float deltaTime);
 
 void collision(Ball& ball, Player& player1, Player& player2);
+
+void score(Ball& ball, Player& player1, Player& player2);
