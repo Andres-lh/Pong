@@ -29,19 +29,8 @@ void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 	collision(ball, player1, player2);
 	score(ball, player1, player2);
 
-	float a = -50;
-	for (int i = 0; i < player1.getScore(); i++)
-	{
-		renderState.drawRectFlex(a, 47.f, 1.f, 1.f, 0xffffff);
-		a += 2.5f;
-	}
-
-	float b = 50;
-	for (int i = 0; i < player2.getScore(); i++)
-	{
-		renderState.drawRectFlex(b, 47.f, 1.f, 1.f, 0xaaaaaa);
-		b += 2.5f;
-	}
+	renderState.drawNumber(player1.getScore(), -10, 40, 1.0f, 0xbbffbb);
+	renderState.drawNumber(player2.getScore(), 10, 40, 1.0f, 0xbbffbb);
 
 	//Player
 	renderState.drawRectFlex(80, player1.getPosition(), player1.getSizeX(), player1.getSizeY(), 0x161d6f);

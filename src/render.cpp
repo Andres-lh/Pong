@@ -61,3 +61,96 @@ void RenderState::drawRectFlex(float x, float y, float halfX, float halfY, unsig
 	drawRect(xi, yi, xf, yf, color);
 }
 
+void RenderState::drawNumber(int number, float x, float y, float size, unsigned int color)
+{
+	float halfSize = size * 0.5f;
+	bool drewNumber = false;
+	while (number || !drewNumber)
+	{
+		drewNumber = true;
+		int digit = number % 10;
+		number = number / 10;
+		switch (digit)
+		{
+		case 0:
+			drawRectFlex(x - size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x, y + size * 2.f, halfSize, halfSize, color);
+			drawRectFlex(x, y - size * 2.f, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 1:
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			x -= size * 2.f;
+			break;
+
+		case 2:
+			drawRectFlex(x, y + size * 2.f, 1.5f * size, halfSize, color);
+			drawRectFlex(x, y, 1.5f * size, halfSize, color);
+			drawRectFlex(x, y - size * 2.f, 1.5f * size, halfSize, color);
+			drawRectFlex(x + size, y + size, halfSize, halfSize, color);
+			drawRectFlex(x - size, y - size, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 3:
+			drawRectFlex(x - halfSize, y + size * 2.f, size, halfSize, color);
+			drawRectFlex(x - halfSize, y, size, halfSize, color);
+			drawRectFlex(x - halfSize, y - size * 2.f, size, halfSize, color);
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			x -= size * 4.f;
+			break;
+
+		case 4:
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x - size, y + size, halfSize, 1.5f * size, color);
+			drawRectFlex(x, y, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 5:
+			drawRectFlex(x, y + size * 2.f, 1.5f * size, halfSize, color);
+			drawRectFlex(x, y, 1.5f * size, halfSize, color);
+			drawRectFlex(x, y - size * 2.f, 1.5f * size, halfSize, color);
+			drawRectFlex(x - size, y + size, halfSize, halfSize, color);
+			drawRectFlex(x + size, y - size, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 6:
+			drawRectFlex(x + halfSize, y + size * 2.f, size, halfSize, color);
+			drawRectFlex(x + halfSize, y, size, halfSize, color);
+			drawRectFlex(x + halfSize, y - size * 2.f, size, halfSize, color);
+			drawRectFlex(x - size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x + size, y - size, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 7:
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x - halfSize, y + size * 2.f, size, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 8:
+			drawRectFlex(x - size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x, y + size * 2.f, halfSize, halfSize, color);
+			drawRectFlex(x, y - size * 2.f, halfSize, halfSize, color);
+			drawRectFlex(x, y, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+
+		case 9:
+			drawRectFlex(x - halfSize, y + size * 2.f, size, halfSize, color);
+			drawRectFlex(x - halfSize, y, size, halfSize, color);
+			drawRectFlex(x - halfSize, y - size * 2.f, size, halfSize, color);
+			drawRectFlex(x + size, y, halfSize, 2.5f * size, color);
+			drawRectFlex(x - size, y + size, halfSize, halfSize, color);
+			x -= size * 4.f;
+			break;
+		}
+	}
+	
+}
