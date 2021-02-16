@@ -3,6 +3,7 @@
 Player player1(2.5f, 12.0f);
 Player player2(2.5f, 12.0f);
 Ball ball(1, 1);
+bool Ai = true;
 
 void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 {
@@ -16,8 +17,15 @@ void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 
 	if (input.buttons[BUTTON_UP].isDown)acceleration1 += 1000;
 	if (input.buttons[BUTTON_DOWN].isDown) acceleration1 -= 1000;
-	if (input.buttons[BUTTON_W].isDown)acceleration2 += 1000;
-	if (input.buttons[BUTTON_S].isDown) acceleration2 -= 1000;
+
+	if (Ai == true) 
+	{
+		acceleration2 = (ball.getPositionY() - player2.getPosition()) * 50;
+		player2.AIBehaviour(acceleration2);
+	}
+
+	/*if (input.buttons[BUTTON_W].isDown)acceleration2 += 1000;
+	if (input.buttons[BUTTON_S].isDown) acceleration2 -= 1000;*/
 
 	player1.move(deltaTime, acceleration1);
 	player2.move(deltaTime, acceleration2);

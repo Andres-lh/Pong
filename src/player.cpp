@@ -64,3 +64,10 @@ void Player::setScore(int score)
 {
 	this->score = score;
 }
+
+void Player::AIBehaviour(float acceleration)
+{
+	this->acceleration = acceleration;
+	if (acceleration > 1300) acceleration = 1300;
+	if (acceleration < -1300) acceleration = -1300;
+}
