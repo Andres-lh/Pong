@@ -125,6 +125,7 @@ input.buttons[b].isDown = isDown;\
 						process_button(BUTTON_DOWN, VK_DOWN);
 						process_button(BUTTON_W, 'W');
 						process_button(BUTTON_S, 'S');
+						process_button(BUTTON_ENTER, VK_RETURN);
 					}
 					break;
 				}

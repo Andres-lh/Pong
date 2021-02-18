@@ -22,5 +22,5 @@ public:
 	float getVelocityX();
 	float getVelocityY();
 	void move(float dt);
-	void collision(float playerSizeX, float playerSizeY, float playerPosition);
+
 };

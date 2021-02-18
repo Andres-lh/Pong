@@ -7,7 +7,7 @@ Ball::Ball(float sizeX, float sizeY)
 
 	positionX = 0;
 	positionY = 0;
-	velocityX = 90;
+	velocityX = 120;
 	velocityY = 0;
 }
 

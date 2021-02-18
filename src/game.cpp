@@ -4,6 +4,13 @@ Player player1(2.5f, 12.0f);
 Player player2(2.5f, 12.0f);
 Ball ball(1, 1);
 bool Ai = true;
+enum class GameMode{
+	Menu,
+	Gameplay
+};
+
+GameMode currentGameMode;
+int button;
 
 void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 {
@@ -15,34 +22,68 @@ void simulateGame(RenderState& renderState, Input& input, float deltaTime)
 	//Board
 	renderState.drawRectFlex(0, 0, 85, 45, 0x1687A7);
 
-	if (input.buttons[BUTTON_UP].isDown)acceleration1 += 1000;
-	if (input.buttons[BUTTON_DOWN].isDown) acceleration1 -= 1000;
-
-	if (Ai == true) 
+	if (currentGameMode == GameMode::Gameplay)
 	{
-		acceleration2 = (ball.getPositionY() - player2.getPosition()) * 50;
-		player2.AIBehaviour(acceleration2);
+		if (input.buttons[BUTTON_UP].isDown)acceleration1 += 1500;
+		if (input.buttons[BUTTON_DOWN].isDown) acceleration1 -= 1500;
+
+		if (Ai == true)
+		{
+			acceleration2 = (ball.getPositionY() - player2.getPosition()) * 70;
+			player2.AIBehaviour(acceleration2);
+		}
+		else {
+			if (input.buttons[BUTTON_W].isDown)acceleration2 += 1500;
+			if (input.buttons[BUTTON_S].isDown) acceleration2 -= 1500;
+		}
+
+		
+
+		player1.move(deltaTime, acceleration1);
+		player2.move(deltaTime, acceleration2);
+		ball.move(deltaTime);
+
+		//Ball
+		renderState.drawRectFlex(ball.getPositionX(), ball.getPositionY(), ball.getSizeX(), ball.getSizeY(), 0xc7ffd8);
+
+		collision(ball, player1, player2);
+		score(ball, player1, player2);
+
+		renderState.drawNumber(player1.getScore(), -10, 40, 1.0f, 0xbbffbb);
+		renderState.drawNumber(player2.getScore(), 10, 40, 1.0f, 0xbbffbb);
+
+		//Player
+		renderState.drawRectFlex(80, player1.getPosition(), player1.getSizeX(), player1.getSizeY(), 0x161d6f);
+		renderState.drawRectFlex(-80, player2.getPosition(), player2.getSizeX(), player2.getSizeY(), 0x161d6f);
+
+	}
+	else
+	{
+		if (input.buttons[BUTTON_UP].isDown && input.buttons[BUTTON_UP].changed
+			|| input.buttons[BUTTON_DOWN].isDown && input.buttons[BUTTON_DOWN].changed)
+		{
+			button = !button;
+		}
+
+		if (input.buttons[BUTTON_ENTER].isDown && input.buttons[BUTTON_ENTER].changed)
+		{
+			currentGameMode = GameMode::Gameplay;
+			Ai = button ? 0 : 1;
+		}
+
+		if (button == 0)
+		{
+			renderState.drawText("SINGLE PLAYER", -30, 20, 1, 0xcccccc);
+			renderState.drawText("MULTIPLAYER", -25, -10, 1, 0x161d6f);
+		}
+		else
+		{
+			renderState.drawText("SINGLE PLAYER", -30, 20, 1, 0x161d6f);
+			renderState.drawText("MULTIPLAYER", -25, -10, 1, 0xcccccc);
+		}
+
 	}
 
-	/*if (input.buttons[BUTTON_W].isDown)acceleration2 += 1000;
-	if (input.buttons[BUTTON_S].isDown) acceleration2 -= 1000;*/
-
-	player1.move(deltaTime, acceleration1);
-	player2.move(deltaTime, acceleration2);
-	ball.move(deltaTime);
-
-	//Ball
-	renderState.drawRectFlex(ball.getPositionX(), ball.getPositionY(), ball.getSizeX(), ball.getSizeY(), 0xc7ffd8);
-
-	collision(ball, player1, player2);
-	score(ball, player1, player2);
-
-	renderState.drawNumber(player1.getScore(), -10, 40, 1.0f, 0xbbffbb);
-	renderState.drawNumber(player2.getScore(), 10, 40, 1.0f, 0xbbffbb);
-
-	//Player
-	renderState.drawRectFlex(80, player1.getPosition(), player1.getSizeX(), player1.getSizeY(), 0x161d6f);
-	renderState.drawRectFlex(-80, player2.getPosition(), player2.getSizeX(), player2.getSizeY(), 0x161d6f);
 }
 
 void collision(Ball& ball, Player& player1, Player& player2)
@@ -89,7 +130,7 @@ void score(Ball& ball, Player& player1, Player& player2)
 
 	if (ball.getPositionX() + ball.getSizeX() > 85)
 	{
-		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityX(ballVelocityX *= -0.9);
 		ball.setVelocityY(0);
 		ball.setPositionX(0);
 		ball.setPositionY(0);
@@ -97,7 +138,7 @@ void score(Ball& ball, Player& player1, Player& player2)
 	}
 	else if (ball.getPositionX() - ball.getSizeX() < -85)
 	{
-		ball.setVelocityX(ballVelocityX *= -1);
+		ball.setVelocityX(ballVelocityX *= -0.9);
 		ball.setVelocityY(0);
 		ball.setPositionX(0);
 		ball.setPositionY(0);
@@ -105,4 +146,6 @@ void score(Ball& ball, Player& player1, Player& player2)
 	}
 	
 }
+
+
   
