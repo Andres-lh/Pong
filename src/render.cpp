@@ -27,7 +27,7 @@ inline int fixSize(int min, int val, int max) {
 	return val;
 }
 
-void RenderState::drawRect(int xi, int yi, int xf, int yf, unsigned int color)
+void RenderState::drawRect(int xi, float yi, float xf, float yf, unsigned int color)
 {
 	xi = fixSize(0, xi, width);
 	xf = fixSize(0, xf, width);

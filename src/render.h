@@ -3,7 +3,7 @@
 
 class RenderState {
 private:
-	void drawRect(int xi, int yi, int xf, int yf, unsigned int color);
+	void drawRect(int xi, float yi, float xf, float yf, unsigned int color);
 public:
 	int height, width;
 	void* memory;
